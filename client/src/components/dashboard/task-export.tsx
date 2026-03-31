@@ -83,7 +83,7 @@ export function TaskExport({ tasks, userName }: TaskExportProps) {
                   <GraduationCap size={44} className="text-white" />
                 </div>
                 <div>
-                  <h2 className="text-5xl font-black tracking-tighter leading-none text-slate-900">JEE HUB</h2>
+                  <h2 className="text-5xl font-black tracking-[0.2em] leading-none text-slate-900">JEE STUDY HUB</h2>
                   <p className="text-lg text-indigo-600 font-black uppercase tracking-[0.4em] mt-2">Study Manager</p>
                 </div>
               </div>
