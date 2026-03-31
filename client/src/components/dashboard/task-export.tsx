@@ -171,7 +171,7 @@ export function TaskExport({ tasks, userName }: TaskExportProps) {
                 </div>
                 <p className="text-2xl font-black text-slate-900 tracking-[0.4em] leading-none uppercase w-full">POWERED BY JEE HUB</p>
               </div>
-              <p className="text-sm text-slate-400 font-black tracking-[0.8em] uppercase text-center w-full">JEEHUB.ONRENDER.COM</p>
+              <p className="text-sm text-slate-400 font-black tracking-[0.8em] uppercase text-center w-full">JEESTUDYHUB.ONRENDER.COM</p>
             </div>
           </div>
         </div>
