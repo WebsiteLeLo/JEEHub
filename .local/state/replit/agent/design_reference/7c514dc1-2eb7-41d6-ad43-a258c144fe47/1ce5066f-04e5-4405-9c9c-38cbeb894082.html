@@ -1,0 +1,714 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEE Study Manager - Track Your Success</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#3B82F6',
+                        'secondary': '#10B981',
+                        'accent': '#8B5CF6',
+                        'muted': '#6B7280',
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-soft': 'pulse 2s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0px)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-inter text-gray-900">
+    <!-- @COMPONENT: Header [navigation and user profile] -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-white text-sm"></i>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-900">JEE Study Manager</h1>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#dashboard" class="text-primary font-medium hover:text-blue-700 transition-colors">Dashboard</a>
+                    <a href="#tasks" class="text-muted hover:text-gray-900 transition-colors">Tasks</a>
+                    <a href="#subjects" class="text-muted hover:text-gray-900 transition-colors">Subjects</a>
+                    <a href="#resources" class="text-muted hover:text-gray-900 transition-colors">Resources</a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <button class="relative p-2 text-muted hover:text-gray-900 transition-colors">
+                        <i class="fas fa-bell"></i>
+                        <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                    </button>
+                    <div class="w-8 h-8 bg-gradient-to-r from-secondary to-primary rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium" data-bind="user.initials">AK</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- @COMPONENT: Dashboard Overview [progress stats and quick actions] -->
+        <div class="mb-8 animate-fade-in">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome back, <span data-bind="user.firstName" class="text-primary">Arjun</span>!</h2>
+                    <p class="text-muted">Track your JEE preparation progress and stay on top of your goals.</p>
+                </div>
+                <div class="mt-4 lg:mt-0">
+                    <button class="bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <i class="fas fa-plus mr-2"></i>Add New Task
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-tasks text-primary text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-secondary">+12%</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-1" data-bind="stats.totalTasks">24</h3>
+                    <p class="text-muted text-sm">Total Tasks</p>
+                    <div class="mt-4 bg-gray-200 rounded-full h-2">
+                        <div class="bg-primary h-2 rounded-full w-3/4 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-clock text-secondary text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-secondary">+8h</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-1" data-bind="stats.studyHours">48h</h3>
+                    <p class="text-muted text-sm">Study Hours</p>
+                    <div class="mt-4 bg-gray-200 rounded-full h-2">
+                        <div class="bg-secondary h-2 rounded-full w-4/5 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-chart-line text-accent text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-secondary">85%</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-1" data-bind="stats.completionRate">89%</h3>
+                    <p class="text-muted text-sm">Completion Rate</p>
+                    <div class="mt-4 bg-gray-200 rounded-full h-2">
+                        <div class="bg-accent h-2 rounded-full w-5/6 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-trophy text-yellow-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-secondary">7 days</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-1" data-bind="stats.streak">21</h3>
+                    <p class="text-muted text-sm">Day Streak</p>
+                    <div class="mt-4 bg-gray-200 rounded-full h-2">
+                        <div class="bg-yellow-500 h-2 rounded-full w-3/5 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: Dashboard Overview -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- @COMPONENT: MainContent [subjects and tasks] -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Subject-wise Tasks -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-semibold text-gray-900">Subject Progress</h3>
+                            <div class="flex space-x-2">
+                                <button class="text-muted hover:text-gray-900 transition-colors">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                                <button class="text-muted hover:text-gray-900 transition-colors">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- @MAP: subjects.map(subject => ( -->
+                    <div class="p-6 space-y-6">
+                        <!-- Physics Section -->
+                        <div class="border rounded-xl p-5 hover:shadow-md transition-all duration-300 bg-blue-50 border-blue-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-atom text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Physics</h4>
+                                        <p class="text-sm text-muted">12 tasks • 3 pending</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-blue-600">75%</div>
+                                    <div class="text-sm text-muted">Progress</div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" checked class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                        <span class="text-sm font-medium line-through text-muted">Kinematics Practice Problems</span>
+                                    </div>
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Completed</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                        <span class="text-sm font-medium">Thermodynamics Revision</span>
+                                    </div>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Due Today</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                        <span class="text-sm font-medium">Optics Mock Test</span>
+                                    </div>
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Tomorrow</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chemistry Section -->
+                        <div class="border rounded-xl p-5 hover:shadow-md transition-all duration-300 bg-green-50 border-green-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-flask text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Chemistry</h4>
+                                        <p class="text-sm text-muted">8 tasks • 2 pending</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-green-600">85%</div>
+                                    <div class="text-sm text-muted">Progress</div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" checked class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                        <span class="text-sm font-medium line-through text-muted">Organic Chemistry Reactions</span>
+                                    </div>
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Completed</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                        <span class="text-sm font-medium">Inorganic Chemistry Notes</span>
+                                    </div>
+                                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">Overdue</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mathematics Section -->
+                        <div class="border rounded-xl p-5 hover:shadow-md transition-all duration-300 bg-purple-50 border-purple-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-square-root-alt text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Mathematics</h4>
+                                        <p class="text-sm text-muted">15 tasks • 5 pending</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-purple-600">68%</div>
+                                    <div class="text-sm text-muted">Progress</div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                        <span class="text-sm font-medium">Calculus Integration Practice</span>
+                                    </div>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">In Progress</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                        <span class="text-sm font-medium">Trigonometry Problem Set</span>
+                                    </div>
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Scheduled</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_MAP )) -->
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-semibold text-gray-900">Recent Activity</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <!-- @MAP: recentActivities.map(activity => ( -->
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-check text-secondary text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-900">Completed "Kinematics Practice Problems"</p>
+                                    <p class="text-xs text-muted">Physics • 2 hours ago</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-clock text-primary text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-900">Started study session for Chemistry</p>
+                                    <p class="text-xs text-muted">3 hours ago • 45 minutes</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-plus text-accent text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-900">Added new task "Coordinate Geometry Review"</p>
+                                    <p class="text-xs text-muted">Mathematics • 5 hours ago</p>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: MainContent -->
+
+            <!-- @COMPONENT: Sidebar [timer, calendar, and resources] -->
+            <div class="space-y-6">
+                <!-- Study Timer -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="text-center">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Study Timer</h3>
+                        
+                        <!-- Timer Display -->
+                        <div class="relative w-40 h-40 mx-auto mb-6">
+                            <svg class="w-40 h-40 transform -rotate-90" viewBox="0 0 144 144">
+                                <circle cx="72" cy="72" r="60" stroke="#E5E7EB" stroke-width="8" fill="none"></circle>
+                                <circle cx="72" cy="72" r="60" stroke="#3B82F6" stroke-width="8" fill="none" 
+                                        stroke-dasharray="377" stroke-dashoffset="94" stroke-linecap="round"
+                                        class="transition-all duration-300"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-gray-900" data-bind="timer.display">25:00</div>
+                                    <div class="text-sm text-muted">Study Session</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timer Controls -->
+                        <div class="flex justify-center space-x-3 mb-4">
+                            <button class="w-12 h-12 bg-primary text-white rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center" data-event="click:startTimer">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                            <button class="w-12 h-12 bg-gray-200 text-gray-600 rounded-full hover:bg-gray-300 transition-colors flex items-center justify-center" data-event="click:pauseTimer">
+                                <i class="fas fa-pause text-sm"></i>
+                            </button>
+                            <button class="w-12 h-12 bg-gray-200 text-gray-600 rounded-full hover:bg-gray-300 transition-colors flex items-center justify-center" data-event="click:resetTimer">
+                                <i class="fas fa-stop text-sm"></i>
+                            </button>
+                        </div>
+
+                        <!-- Timer Presets -->
+                        <div class="grid grid-cols-3 gap-2">
+                            <button class="py-2 px-3 text-xs bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">25m</button>
+                            <button class="py-2 px-3 text-xs bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">45m</button>
+                            <button class="py-2 px-3 text-xs bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">60m</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Today's Schedule</h3>
+                        <button class="text-primary hover:text-blue-700 transition-colors">
+                            <i class="fas fa-plus text-sm"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <!-- @MAP: todaySchedule.map(item => ( -->
+                        <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                            <div class="w-2 h-8 bg-primary rounded-full"></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">Physics Mock Test</p>
+                                <p class="text-xs text-muted">10:00 AM - 12:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
+                            <div class="w-2 h-8 bg-secondary rounded-full"></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">Chemistry Revision</p>
+                                <p class="text-xs text-muted">2:00 PM - 4:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
+                            <div class="w-2 h-8 bg-accent rounded-full"></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">Math Practice</p>
+                                <p class="text-xs text-muted">6:00 PM - 8:00 PM</p>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+
+                <!-- Important Resources -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Quick Resources</h3>
+                        <button class="text-primary hover:text-blue-700 transition-colors">
+                            <i class="fas fa-external-link-alt text-sm"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <!-- @MAP: quickResources.map(resource => ( -->
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-book text-primary text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">NCERT Physics Solutions</p>
+                                <p class="text-xs text-muted">Chapter 1-15</p>
+                            </div>
+                        </a>
+
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-video text-secondary text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">Chemistry Video Lectures</p>
+                                <p class="text-xs text-muted">Organic Chemistry</p>
+                            </div>
+                        </a>
+
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group">
+                            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-calculator text-accent text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">Math Formula Sheet</p>
+                                <p class="text-xs text-muted">Quick Reference</p>
+                            </div>
+                        </a>
+
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-file-pdf text-red-600 text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">Previous Year Papers</p>
+                                <p class="text-xs text-muted">2019-2023</p>
+                            </div>
+                        </a>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+
+                <!-- Performance Chart -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Weekly Progress</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-muted">Physics</span>
+                            <span class="text-sm font-medium">85%</span>
+                        </div>
+                        <div class="bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full w-5/6 transition-all duration-500"></div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-muted">Chemistry</span>
+                            <span class="text-sm font-medium">72%</span>
+                        </div>
+                        <div class="bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full w-3/4 transition-all duration-500"></div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-muted">Mathematics</span>
+                            <span class="text-sm font-medium">90%</span>
+                        </div>
+                        <div class="bg-gray-200 rounded-full h-2">
+                            <div class="bg-purple-600 h-2 rounded-full w-11/12 transition-all duration-500"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: Sidebar -->
+        </div>
+    </div>
+
+    <!-- @COMPONENT: FloatingActionButton [quick task creation] -->
+    <div class="fixed bottom-8 right-8 z-50">
+        <button class="w-14 h-14 bg-gradient-to-r from-primary to-accent text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 animate-float">
+            <i class="fas fa-plus text-xl"></i>
+        </button>
+    </div>
+    <!-- @END_COMPONENT: FloatingActionButton -->
+
+    <!-- @COMPONENT: TaskModal [for creating new tasks] -->
+    <!-- @STATE: isModalOpen:boolean = false -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" id="taskModal">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-slide-up">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-gray-900">Create New Task</h3>
+                        <button class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Task Title</label>
+                        <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter task title..." data-mock="true">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" data-mock="true">
+                            <option>Select Subject</option>
+                            <option>Physics</option>
+                            <option>Chemistry</option>
+                            <option>Mathematics</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" data-mock="true">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                        <div class="flex space-x-2">
+                            <button class="px-4 py-2 bg-red-100 text-red-800 rounded-lg text-sm hover:bg-red-200 transition-colors">High</button>
+                            <button class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg text-sm hover:bg-yellow-200 transition-colors">Medium</button>
+                            <button class="px-4 py-2 bg-green-100 text-green-800 rounded-lg text-sm hover:bg-green-200 transition-colors">Low</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 border-t border-gray-200 flex space-x-3">
+                    <button class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+                    <button class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors" data-implementation="Should validate form and add task to localStorage">Create Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: TaskModal -->
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        
+        (function() {
+            // Basic UI interactions - not full functionality
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Add hover effects to task items
+            const taskItems = document.querySelectorAll('.bg-white.rounded-lg.shadow-sm');
+            taskItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '';
+                });
+            });
+
+            // Progress bar animations
+            const progressBars = document.querySelectorAll('.bg-primary, .bg-secondary, .bg-accent, .bg-yellow-500, .bg-blue-600, .bg-green-600, .bg-purple-600');
+            
+            const animateProgressBars = () => {
+                progressBars.forEach(bar => {
+                    const width = bar.style.width || bar.classList.find(cls => cls.includes('w-'))?.replace('w-', '');
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.transition = 'width 1s ease-out';
+                        bar.style.width = width || '75%';
+                    }, 100);
+                });
+            };
+
+            // Trigger animations when page loads
+            window.addEventListener('load', animateProgressBars);
+            
+            // Mock timer functionality (visual only)
+            let timerInterval;
+            let seconds = 25 * 60; // 25 minutes
+            
+            function updateTimerDisplay() {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                const display = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                const timerDisplay = document.querySelector('[data-bind="timer.display"]');
+                if (timerDisplay) {
+                    timerDisplay.textContent = display;
+                }
+                
+                // Update progress circle
+                const circle = document.querySelector('circle[stroke="#3B82F6"]');
+                if (circle) {
+                    const totalSeconds = 25 * 60;
+                    const progress = (totalSeconds - seconds) / totalSeconds;
+                    const circumference = 377;
+                    const offset = circumference - (progress * circumference);
+                    circle.style.strokeDashoffset = offset;
+                }
+            }
+            
+            // Modal functionality
+            const modal = document.getElementById('taskModal');
+            const openModalButtons = document.querySelectorAll('[data-event*="click"]');
+            
+            // Show notification on task creation (mock)
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-up';
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+
+            // Add some interactive feedback
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        })();
+    </script>
+</body>
+</html>
